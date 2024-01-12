@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-phone', [TwoFactorAuthenticationController::class, 'index'])->name('phone.verify');
+    Route::post('verify-code', [TwoFactorAuthenticationController::class, 'verifyCode'])->name('phone.verify.code');
 });
 
 require __DIR__ . '/auth.php';

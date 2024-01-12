@@ -34,6 +34,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            //add this
+            'flash' => [
+                'message' => session('message')
+            ]
         ];
     }
 }

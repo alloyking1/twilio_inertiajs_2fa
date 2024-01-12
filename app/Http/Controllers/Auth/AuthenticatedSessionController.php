@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Exception;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -34,10 +35,16 @@ class AuthenticatedSessionController extends Controller
     {
 
         $request->authenticate();
-
         $request->session()->regenerate();
+        //get number from user DB
+        return $this->sendVerificationToken("+13318710383");
 
-        return $this->sendVerificationToken();
+        // try {
+        //     return $this->sendVerificationToken(+2348063146940);
+        // } catch (\Exception $e) {
+        //     dump($e->getMessage());
+        // }
+
         // return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -7,33 +7,45 @@ use Twilio\Rest\Client;
 trait TwoFactorAuthenticationTrait
 {
 
-    // protected $token = env("TWILIO_AUTH_TOKEN");
-    $sid = env("TWILIO_ACCOUNT_SID");
+    protected $twilioSid;
+    protected $twilioAuthToken;
+    protected $twilioVerificationServiceToken;
+    protected $twilio;
 
-    public function createVerificationService()
+    public function __construct()
     {
-        // dd(env("TWILIO_ACCOUNT_SID"));
-        dd($this->sid);
-        $sid = env('TWILIO_ACCOUNT_SID');
-        $twilio = new Client($this->sid, $this->token);
-        $service = $twilio->verify->v2->services
-            ->create("Two Step Verification Service");
-        return $service->id;
-        // print($service->sid);
+        $this->twilioSid = env("TWILIO_ACCOUNT_SID");
+        $this->twilioAuthToken = env("TWILIO_AUTH_TOKEN");
+        $this->twilioVerificationServiceToken = env("TWILIO_VERIFICATION_SERVICE_TOKEN");
+        $this->twilio =  new Client($this->twilioSid, $this->twilioAuthToken);
     }
 
-    /**
-     * send token and redirect to 2FA page
-     *
-     * @return void
-     */
-    public function sendVerificationToken()
+    // public function createVerificationService()
+    // {
+    //     $twilio = new Client($this->twilioSid, $this->twilioAuthToken);
+    //     $service = $twilio->verify->v2->services
+    //         ->create("Two Step Verification Service");
+    //     return $service->sid;
+    // }
+
+    public function sendVerificationToken($userPhoneNumber)
     {
-        $service = $this->createVerificationService();
-        return redirect()->route('phone.verify');
+        $verification = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
+            ->verifications
+            ->create($userPhoneNumber, "sms");
+        return redirect()->route('phone.verify')->with('message', 'OTP sent');
     }
 
-    public function checkVerificationToken()
+    public function checkVerificationToken($userPhoneNumber, $code)
     {
+        $verification_check = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
+            ->verificationChecks
+            ->create(
+                [
+                    "to" => "$userPhoneNumber",
+                    "code" => "$code"
+                ]
+            );
+        return true;
     }
 }
