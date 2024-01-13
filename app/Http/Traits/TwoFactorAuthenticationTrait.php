@@ -3,7 +3,6 @@
 namespace App\Http\Traits;
 
 use Twilio\Rest\Client;
-use Illuminate\Support\Facades\Session;
 
 trait TwoFactorAuthenticationTrait
 {

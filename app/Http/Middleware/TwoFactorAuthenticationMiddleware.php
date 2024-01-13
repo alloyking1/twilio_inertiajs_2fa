@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Inertia\Inertia;
 
 
 class TwoFactorAuthenticationMiddleware
@@ -17,7 +16,6 @@ class TwoFactorAuthenticationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // dump($request->session()->get('phoneVerified'));
         if ($request->session()->get('phoneVerified') === "pending") {
             return redirect()->route('phone.verify');
         }
