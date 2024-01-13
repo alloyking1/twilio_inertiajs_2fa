@@ -9,6 +9,15 @@ We implemented the Two-factor verification by
 -   Inject an OTP system into our authentication flow using Twilio Verify API
 -   Create a middleware to restrict access to the dashboard until a given phone number is verified
 
+## Serve Application
+
+To get the application running, do the following
+
+-   clone from the public repo
+-   install dependencies using `composer install` and `npm install`
+-   run migration using `php artisan migrate`
+-   serve application using `php artisan serve` and `npm run dev`
+
 I hope you find this helpful.
 
 ## Contributing
