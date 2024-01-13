@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Session;
 
 trait TwoFactorAuthenticationTrait
 {
@@ -20,32 +21,28 @@ trait TwoFactorAuthenticationTrait
         $this->twilio =  new Client($this->twilioSid, $this->twilioAuthToken);
     }
 
-    // public function createVerificationService()
-    // {
-    //     $twilio = new Client($this->twilioSid, $this->twilioAuthToken);
-    //     $service = $twilio->verify->v2->services
-    //         ->create("Two Step Verification Service");
-    //     return $service->sid;
-    // }
-
     public function sendVerificationToken($userPhoneNumber)
     {
         $verification = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
             ->verifications
             ->create($userPhoneNumber, "sms");
+
+        session(['phoneVerified' => $verification->status]);
         return redirect()->route('phone.verify')->with('message', 'OTP sent');
     }
 
     public function checkVerificationToken($userPhoneNumber, $code)
     {
-        $verification_check = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
+        $verification = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
             ->verificationChecks
             ->create(
                 [
-                    "to" => "$userPhoneNumber",
-                    "code" => "$code"
+                    "to" => $userPhoneNumber,
+                    "code" => $code
                 ]
             );
+
+        session(['phoneVerified' => $verification->status]);
         return true;
     }
 }

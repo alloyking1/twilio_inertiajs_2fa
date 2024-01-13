@@ -18,12 +18,15 @@ class TwoFactorAuthenticationController extends Controller
 
     public function verifyCode(Request $request)
     {
-        // dd($request->code);
         $validate = $request->validate([
             'code' => 'required'
         ]);
-        $verify = $this->checkVerificationToken("+13318710383", $request->code);
-        dump($verify);
-        return redirect()->route('dashboard');
+
+        try {
+            $this->checkVerificationToken(auth()->user()->phone, $request->code);
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 }

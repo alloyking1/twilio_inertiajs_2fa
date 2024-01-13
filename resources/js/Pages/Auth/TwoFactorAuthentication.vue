@@ -67,20 +67,23 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                 Verification Code
                 </PrimaryButton>
 
-                <Link
-                    :href="route('logout')"
+                <div class="flex gap-1">
+                    <Link
+                    :href="route('phone.verify')"
                     method="post"
                     as="button"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >Resend code</Link
-                >
-                <!-- <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >Log Out</Link
-                > -->
+                    >
+                    <Link
+                        :href="route('logout')"
+                        method="post"
+                        as="button"
+                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >Log Out</Link
+                    >
+                </div>
+                
             </div>
         </form>
     </GuestLayout>

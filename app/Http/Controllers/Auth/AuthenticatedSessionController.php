@@ -36,16 +36,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->authenticate();
         $request->session()->regenerate();
-        //get number from user DB
-        return $this->sendVerificationToken("+13318710383");
-
-        // try {
-        //     return $this->sendVerificationToken(+2348063146940);
-        // } catch (\Exception $e) {
-        //     dump($e->getMessage());
-        // }
-
-        // return redirect()->intended(RouteServiceProvider::HOME);
+        return $this->sendVerificationToken(auth()->user()->phone);
     }
 
     /**
