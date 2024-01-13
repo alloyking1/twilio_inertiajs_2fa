@@ -28,5 +28,3 @@ Create a new branch with your changes and raise a pull request.
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-# twilio_inertiajs_2fa
