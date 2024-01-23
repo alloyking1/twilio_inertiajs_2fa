@@ -24,7 +24,7 @@ trait TwoFactorAuthenticationTrait
     {
         $verification = $this->twilio->verify->v2->services($this->twilioVerificationServiceToken)
             ->verifications
-            ->create($userPhoneNumber, "sms");
+            ->create("+" . $userPhoneNumber, "sms");
 
         session(['phoneVerified' => $verification->status]);
         return redirect()->route('phone.verify')->with('message', 'OTP sent');
@@ -36,7 +36,7 @@ trait TwoFactorAuthenticationTrait
             ->verificationChecks
             ->create(
                 [
-                    "to" => $userPhoneNumber,
+                    "to" => "+" . $userPhoneNumber,
                     "code" => $code
                 ]
             );
